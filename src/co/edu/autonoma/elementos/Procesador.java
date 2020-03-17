@@ -12,8 +12,10 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 /**
- *
- * @author nikof
+ *Permite procesar los mensajes que llegar al servidor
+ * @author Nicolas Forero Segovia
+ * @author Leandra Builes
+ * @version 1.1
  */
 public class Procesador {
     
@@ -25,6 +27,10 @@ public class Procesador {
         this.juego = juego;
     }
     
+    /**
+     * Me permite saber en que estado del juego me encuentro (inicio, nueva partida, terminar) para
+     * posteiormente realizar una acción.
+     */
     public String procesar(){
         
         String respuesta = null;
@@ -76,6 +82,13 @@ public class Procesador {
             
         return respuesta;
     }
+    
+    /**
+     * Me permite realizar el mensaje de estado preparado con el 
+     * protocolo de mensajes (Jugador1, Jugador 2, estado)
+     * @param objJ1 el jugador 1 
+     * @param objJ2 el jugador 2
+     */
 
     private String realizarEstadoPreparado(JSONObject objJ1, JSONObject objJ2) {
         
@@ -102,7 +115,13 @@ public class Procesador {
         
         return null;
     }
-
+    
+    /**
+     * Me permite realizar el mensaje de estado NO preparado con el 
+     * protocolo de mensajes (Jugador1, Jugador 2, estado)
+     * @param objJ1 el jugador 1 
+     * @param objJ2 el jugador 2
+     */
     private String realizarEstadoNoPreparado(JSONObject objJ1, JSONObject objJ2) {
     
         JSONObject obj = new JSONObject();
@@ -129,6 +148,12 @@ public class Procesador {
         return null;
     }
 
+    /**
+     * Me permite realizar el mensaje de Jugador 1 preparado, esperando el jugador 2, con el
+     * protocolo de mensajes (Jugador1, Jugador 2, estado)
+     * @param objJ1 el jugador 1 
+     * @param objJ2 el jugador 2
+     */
     private String realizarEstadoJ1OK_J2NO(JSONObject objJ1, JSONObject objJ2) {
 
         JSONObject obj = new JSONObject();
@@ -155,6 +180,12 @@ public class Procesador {
         return null;
     }
 
+    /**
+     * Me permite realizar el mensaje de Jugador 2 preparado, esperando el jugador 1, con el
+     * protocolo de mensajes (Jugador1, Jugador 2, estado)
+     * @param objJ1 el jugador 1 
+     * @param objJ2 el jugador 2
+     */    
     private String realizarEstadoJ1NO_J2OK(JSONObject objJ1, JSONObject objJ2) {
 
         JSONObject obj = new JSONObject();
@@ -181,6 +212,12 @@ public class Procesador {
         return null;
     }
 
+    /**
+     * Me permite jugar y conocer el ganador de la sesión de juego, con el protocolo
+     * de mensajes (jugador1, jugador2, jugada1,jugada2,estado,ganador)
+     * @param objJ1 La jugada del jugador 1 
+     * @param objJ2 La jugada del jugador 2 
+     */
     private String jugar(JSONObject objJ1, JSONObject objJ2) {
         
         JSONObject obj = new JSONObject();
