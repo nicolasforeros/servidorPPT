@@ -11,7 +11,7 @@ import java.net.Socket;
 
 /**
  *
- * @author nikof
+ * @author nikof-Leandra
  */
 public class ServidorPPT {
     
