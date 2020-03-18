@@ -30,6 +30,11 @@ public class Juego {
     private String estadoJ1;
     private String estadoJ2;
     
+    public Juego(){
+        estadoJ1 = "{\"jugada\":"+Juego.NUEVA_PARTIDA+",\"jugador\":null}";
+        estadoJ2 = "{\"jugada\":"+Juego.NUEVA_PARTIDA+",\"jugador\":null}";
+    }
+    
     public synchronized void setEstadoJ1(String estado){
         this.estadoJ1 = estado;
         notify();

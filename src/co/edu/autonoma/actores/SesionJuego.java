@@ -43,6 +43,7 @@ public class SesionJuego extends Thread{
     @Override
     public void run(){
         String mensajeSalida;
+        String mensajeInicio;
         
         DataInputStream inJ1;
         DataInputStream inJ2;
@@ -60,13 +61,19 @@ public class SesionJuego extends Thread{
             return;
         }
         
+        System.out.println("Creando red de entrada J1");
         this.redInJ1 = new RedEntrada(this.juego, inJ1, RedEntrada.JUGADOR_1);
         this.redInJ1.start();
         
-        this.redInJ2 = new RedEntrada(this.juego, inJ2,RedEntrada.JUGADOR_2);
+        System.out.println("Creando red de entrada J2");
+        this.redInJ2 = new RedEntrada(this.juego, inJ2, RedEntrada.JUGADOR_2);
         this.redInJ2.start();
         
+        System.out.println("Creando red de salida");
         this.redOut = new RedSalida(outJ1,outJ2);
+        
+        mensajeInicio = this.procesador.iniciarJuego();
+        this.redOut.enviarMensaje(mensajeInicio);
         
         while(true){
             

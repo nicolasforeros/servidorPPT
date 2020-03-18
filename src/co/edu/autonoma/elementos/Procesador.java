@@ -20,26 +20,32 @@ public class Procesador {
     private Juego juego;
     
     private JSONParser parser;
+    private JSONObject obj;
     
     public Procesador(Juego juego){
         this.juego = juego;
+        this.parser = new JSONParser();
+        this.obj = new JSONObject();
     }
     
     public String procesar(){
         
         String respuesta = null;
         
+        System.out.println("PROCESADOR=> obteniendo estados del juego");
         String[] estados = this.juego.getEstados(); //aca se espera a que se obtenga un estado primero
-        
+   
         String jugador1 = estados[0];
         String jugador2 = estados[1];
+        System.out.println("PROCESADOR=> Estados de juego son: " + jugador1 + " --- " + jugador2);
         
         JSONObject objJ1;
         JSONObject objJ2;
         
         try {
-            objJ1 = (JSONObject)parser.parse(jugador1);
-            objJ2 = (JSONObject)parser.parse(jugador2);
+            Object o = parser.parse(jugador1.trim());
+            objJ1 = (JSONObject) o;
+            objJ2 = (JSONObject) parser.parse(jugador2.trim());
         } catch (ParseException ex) {
             System.out.println("Error procesando los mensajes. " + ex.getMessage() );
             return null;
@@ -79,8 +85,6 @@ public class Procesador {
 
     private String realizarEstadoPreparado(JSONObject objJ1, JSONObject objJ2) {
         
-        JSONObject obj = new JSONObject();
-        
         String jugador1 = (String)objJ1.get("jugador");
         String jugador2 = (String)objJ2.get("jugador");
         
@@ -105,8 +109,6 @@ public class Procesador {
 
     private String realizarEstadoNoPreparado(JSONObject objJ1, JSONObject objJ2) {
     
-        JSONObject obj = new JSONObject();
-        
         String jugador1 = (String)objJ1.get("jugador");
         String jugador2 = (String)objJ2.get("jugador");
         
@@ -131,13 +133,15 @@ public class Procesador {
 
     private String realizarEstadoJ1OK_J2NO(JSONObject objJ1, JSONObject objJ2) {
 
-        JSONObject obj = new JSONObject();
-        
         String jugador1 = (String)objJ1.get("jugador");
         String jugador2 = (String)objJ2.get("jugador");
+        int jugada1 =(int) (long)objJ1.get("jugada");
+        int jugada2 =(int) (long)objJ2.get("jugada");
         
         obj.put("jugador1", jugador1);
         obj.put("jugador2", jugador2);
+        obj.put("jugada1", jugada1);
+        obj.put("jugada2", jugada2);
         obj.put("estado", Juego.ESTADO_J1OK_J2NO);
         
         /////////////////////////////////////////////////
@@ -156,14 +160,16 @@ public class Procesador {
     }
 
     private String realizarEstadoJ1NO_J2OK(JSONObject objJ1, JSONObject objJ2) {
-
-        JSONObject obj = new JSONObject();
         
         String jugador1 = (String)objJ1.get("jugador");
         String jugador2 = (String)objJ2.get("jugador");
+        int jugada1 =(int) (long)objJ1.get("jugada");
+        int jugada2 =(int) (long)objJ2.get("jugada");
         
         obj.put("jugador1", jugador1);
         obj.put("jugador2", jugador2);
+        obj.put("jugada1", jugada1);
+        obj.put("jugada2", jugada2);
         obj.put("estado", Juego.ESTADO_J1NO_J2OK);
         
         /////////////////////////////////////////////////
@@ -182,8 +188,6 @@ public class Procesador {
     }
 
     private String jugar(JSONObject objJ1, JSONObject objJ2) {
-        
-        JSONObject obj = new JSONObject();
         
         String jugador1 = (String)objJ1.get("jugador");
         String jugador2 = (String)objJ2.get("jugador");
@@ -221,6 +225,9 @@ public class Procesador {
             obj.writeJSONString(out);
             
             String jsonText = out.toString();
+            
+            this.reiniciarJuego(objJ1,objJ2);
+            
             return jsonText;
         } catch (IOException ex) {
             System.out.println("PROCESADOR => Error realizando el mensaje de estado J1 NO J2 OK: " + ex.getMessage());
@@ -228,5 +235,45 @@ public class Procesador {
         
         return null;
         
+    }
+
+    public String iniciarJuego() {
+        
+        obj.put("jugada1", Juego.NUEVA_PARTIDA);
+        obj.put("jugada2", Juego.NUEVA_PARTIDA);
+        obj.put("estado", Juego.ESTADO_PREPARADO);
+        
+        try {
+            StringWriter out = new StringWriter();
+            obj.writeJSONString(out);
+            
+            String jsonText = out.toString();
+            return jsonText;
+        } catch (IOException ex) {
+            System.out.println("PROCESADOR => Error realizando el mensaje de inicio de juego: " + ex.getMessage());
+        }
+        return null;
+    }
+    
+    private void reiniciarJuego(JSONObject objJ1, JSONObject objJ2){
+        
+        objJ1.put("jugada", Juego.INICIO);
+        objJ2.put("jugada", Juego.INICIO);
+        
+        try {
+            StringWriter outJ1 = new StringWriter();
+            objJ1.writeJSONString(outJ1);
+            StringWriter outJ2 = new StringWriter();
+            objJ2.writeJSONString(outJ2);
+            
+            String jsonTextJ1 = outJ1.toString();
+            String jsonTextJ2 = outJ2.toString();
+            
+            this.juego.setEstadoJ1(jsonTextJ1);
+            this.juego.setEstadoJ2(jsonTextJ2);
+            
+        } catch (IOException ex) {
+            System.out.println("PROCESADOR => Error realizando el mensaje de inicio de juego: " + ex.getMessage());
+        }        
     }
 }

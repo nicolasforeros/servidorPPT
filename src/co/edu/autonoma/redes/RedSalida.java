@@ -27,6 +27,7 @@ public class RedSalida {
     public void enviarMensaje(String mensajeEnviar){
         
         try {
+            System.out.println("RED SALIDA=> Escribiendo mensaje: " + mensajeEnviar);
             outJ1.writeUTF(mensajeEnviar);
             outJ2.writeUTF(mensajeEnviar);
             

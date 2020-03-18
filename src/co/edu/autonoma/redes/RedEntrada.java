@@ -33,7 +33,7 @@ public class RedEntrada extends Thread {
     }
     
     @Override
-    public void start(){
+    public void run(){
         
         String mensajeRecibido;
         
@@ -46,7 +46,7 @@ public class RedEntrada extends Thread {
                 mensajeRecibido = in.readUTF();
             } catch (IOException ex) {
                 System.out.println("RED ENTRADA => Error de IO, en lectura jugador " + this.jugador +": " + ex.getMessage());
-                mensajeRecibido="cerrar";
+                break;
             }
             
             if(this.jugador==RedEntrada.JUGADOR_1){
