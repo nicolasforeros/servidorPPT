@@ -15,8 +15,10 @@ import java.io.IOException;
 import java.net.Socket;
 
 /**
- *
- * @author nikof
+ *Permite crear una sesión de juego
+ * @author Nicolas Forero Segovia
+ * @author Leandra Builes
+ * @version 1.1
  */
 public class SesionJuego extends Thread{
     
@@ -32,6 +34,11 @@ public class SesionJuego extends Thread{
     
     private Procesador procesador;
 
+     /**
+     * Constructor; permite inicializar el socket del jugador 1 y el socket del jugagor 2
+     * @param socketJ1 socket del jugador 1
+     * @param socketJ2 socket del jugagor 2
+     */
     SesionJuego(Socket socketJ1, Socket socketJ2) {
         this.socketJ1 = socketJ1;
         this.socketJ2 = socketJ2;
@@ -40,6 +47,9 @@ public class SesionJuego extends Thread{
         this.procesador = new Procesador(this.juego);
     }
     
+    /**
+     * Permite crear los flujos de conexión para posteriormente procesar los mensajes
+     */
     @Override
     public void run(){
         String mensajeSalida;

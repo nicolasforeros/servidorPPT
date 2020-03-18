@@ -10,8 +10,10 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
- *
- * @author nikof-Leandra
+ *Clase principal del servidor, se habilita el puerto y se espera por una sesión de juego
+ * @author Nicolas Forero Segovia
+ * @author Leandra Builes
+ * @version 1.1
  */
 public class ServidorPPT {
     

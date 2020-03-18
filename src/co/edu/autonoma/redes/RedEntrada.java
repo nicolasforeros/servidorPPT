@@ -12,8 +12,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * @author nikof
+ *Red de entrada de los mensajes
+ * @author Nicolas Forero Segovia
+ * @author Leandra Builes
+ * @version 1.1
  */
 public class RedEntrada extends Thread {
     
@@ -24,6 +26,12 @@ public class RedEntrada extends Thread {
     private DataInputStream in;
     private int jugador;
     
+    /**
+     * Constructor; permite inicializar el juego,la entrada y el jugador de la red de entrada
+     * @param juego El juego PPT
+     * @param in El mensaje de entrada
+     * @param jugador El jugador
+     */
     public RedEntrada( Juego juego, DataInputStream in, int jugador){
         
         this.juego = juego;
@@ -31,7 +39,10 @@ public class RedEntrada extends Thread {
         this.jugador = jugador;
         
     }
-    
+    /**
+     * Empieza el hilo. Me permite estar siempre a la espera de un mensaje de entrada proveniente
+     * de jugador y recibirlo
+     */
     @Override
     public void run(){
         
