@@ -35,7 +35,7 @@ public class ServidorPPT {
                 
                 Socket socketJ2 = listenSocket.accept();
                 System.out.println("SERVIDOR: jugador 2 recibido " + socketJ2.getInetAddress().getHostName());
-
+                
                 SesionJuego sesion = new SesionJuego(socketJ1, socketJ2);
 
                 sesion.start();

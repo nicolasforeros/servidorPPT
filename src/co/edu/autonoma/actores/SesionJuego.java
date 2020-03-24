@@ -48,7 +48,7 @@ public class SesionJuego extends Thread{
     }
     
     /**
-     * Permite crear los flujos de conexión para posteriormente procesar los mensajes
+     * Crea los flujos de conexión para posteriormente procesar los mensajes
      */
     @Override
     public void run(){

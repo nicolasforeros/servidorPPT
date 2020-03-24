@@ -5,12 +5,13 @@
  */
 package co.edu.autonoma.elementos;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /**
- *
- * @author nikof
+ * Objeto compartido entre los hilos del servidor, representa el juego de piedra,
+ * papel o tijera y sus estados.
+ * 
+ * @author Nicolas Forero Segovia
+ * @author Leandra Builes
+ * @version 1.1
  */
 public class Juego {
     
@@ -27,7 +28,14 @@ public class Juego {
     public static final int ESTADO_J1NO_J2OK=7;
     public static final int ESTADO_J1OK_J2OK=8;
     
+    /**
+     * Se refiere al estado del juego segun el jugador 1, su jugada y nombre
+     */
     private String estadoJ1;
+    
+    /**
+     * Se refiere al estado del juego segun el jugador 2, su jugada y nombre
+     */
     private String estadoJ2;
     
     public Juego(){
